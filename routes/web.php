@@ -26,3 +26,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() : void{
 	
 	Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
 });
+
+Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
+	Route::get('/', [App\Http\Controllers\Admin\Admincontroller::class, 'index'])->name('admin.index');
+});
