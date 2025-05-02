@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
+            // Add the 'role_id' column after 'password'
             $table->unsignedBigInteger('role_id')->after('password');
+
+            // Add foreign key constraint
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict');
         });
     }

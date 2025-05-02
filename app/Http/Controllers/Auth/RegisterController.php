@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Database\Seeders\RolesTableSeeder;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/register';
 
     /**
      * Create a new controller instance.
@@ -49,9 +51,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            'email.unique' => 'This email is already registered.',
+            'password.confirmed' => 'Passwords do not match.',
         ]);
     }
 
@@ -63,11 +68,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $defaultRoleId = 1;
+
+        if (!Role::find($defaultRoleId)) {
+            throw new \Exception("Role with ID $defaultRoleId does not exist.");
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => 1
+            'role_id' => $defaultRoleId,
         ]);
     }
 }

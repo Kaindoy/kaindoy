@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return redirect()->route('login');
 });
 
 Auth::routes();
@@ -22,11 +23,7 @@ Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() : void{
-	
-	Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
-});
-
-Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
-	Route::get('/', [App\Http\Controllers\Admin\Admincontroller::class, 'index'])->name('admin.index');
+Route::prefix('admin')->middleware(['role:admin'])->group(function () {
+	Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+	Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });

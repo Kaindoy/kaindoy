@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     public function index()
     {
         $roleId = auth()->user()->role_id;
 
-        return view('admin.dashboard.dashboard', compact('roleId'));
+        return view('user.dashboard.dashboard', compact('roleId'));
     }
 }

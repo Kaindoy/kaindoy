@@ -22,7 +22,7 @@ class UserMiddleware
     {
        if (Auth::user()) {
             $role = Role::where('id', auth()->role_id)->first();
-            if($role->id == 1){
+            if($role->id == 2){
                  return $next($request);
             }
         }
