@@ -27,7 +27,7 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 $role = Role::where('id', auth()->user()->role_id)->first();
 
-                if ($role && $role->id == '1') {
+                if (isset($role)) {
                     return redirect($role->url);
                 }
             }

@@ -64,14 +64,15 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class, 
+        'user' => \App\Http\Middleware\UserMiddleware::class,
     ];
 
     // app/Http/Kernel.php
 
     protected $routeMiddleware = [
         // Other middlewares...
-        'admin' => \App\Http\Middleware\AdminMiddleware::class, // Ensure your middleware exists here
-        'user' => \App\Http\Middleware\UserMiddleware::class, // Ensure your middleware exists here
+         // Ensure your middleware exists here
         'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
 }

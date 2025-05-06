@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user.app')
 
 @section('content')
 <div class="container-fluid">
@@ -82,41 +82,3 @@
 </div>
 @endsection
 
-@section('styles')
-<style>
-    .sidebar {
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 250px;
-        background-color: #343a40;
-    }
-    .sidebar .nav-link {
-        color: #bbb;
-        padding: 15px;
-        font-size: 16px;
-    }
-    .sidebar .nav-link:hover {
-        background-color: #495057;
-        color: white;
-    }
-    .sidebar-header h3 {
-        color: #fff;
-        font-size: 24px;
-    }
-    .navbar {
-        z-index: 1000;
-    }
-    .card {
-        margin-top: 20px;
-    }
-    .card-header {
-        font-weight: bold;
-    }
-</style>
-@endsection
-
-@section('scripts')
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-@endsection

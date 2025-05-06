@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\Role;
-use Auth;
-
+use Illuminate\Support\Facades\Auth;
 
 class UserMiddleware
 {
@@ -21,7 +20,7 @@ class UserMiddleware
     public function handle(Request $request, Closure $next)
     {
        if (Auth::user()) {
-            $role = Role::where('id', auth()->role_id)->first();
+            $role = Role::where('id', auth()->user()->role_id)->first();
             if($role->id == 2){
                  return $next($request);
             }
