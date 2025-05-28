@@ -16,4 +16,8 @@ class AdminController extends Controller
 
         return view('admin.dashboard.dashboard', compact('roleId'));
     }
+
+    public function indexView(){
+    	return view('admin.indexView.view');
+    }
 }

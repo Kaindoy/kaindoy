@@ -27,6 +27,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 	Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
+	Route::get('index-view', [AdminController::class, 'indexView'])->name('view');
 });
 
 Route::group(['middleware' => 'user', 'prefix' => 'user'], function () {
