@@ -3,33 +3,35 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::get('/', function () {
-	return redirect()->route('login');
+    return redirect()->route('login');
 });
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// ADMIN Routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('index-view', [AdminController::class, 'indexView'])->name('index-view');
+    Route::resource('users', UserManagementController::class)->except(['create', 'edit', 'show']);
+    Route::resource('reservations', ReservationController::class)->only(['index']);
+    Route::get('settings', [AdminController::class, 'settings'])->name('admin.settings');
+    Route::resource('reservations', App\Http\Controllers\ReservationController::class);
 
-
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-	Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
-	Route::get('index-view', [AdminController::class, 'indexView'])->name('view');
 });
 
-Route::group(['middleware' => 'user', 'prefix' => 'user'], function () {
-	Route::get('/', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.dashboard');
+// USER Routes
+Route::middleware(['auth', 'user'])->prefix('user')->name('user.')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('dashboard');
+    // Add more user routes here
 });
